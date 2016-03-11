@@ -1,0 +1,43 @@
+package binggo.service1;
+
+import "binggo.proto";
+
+// 扩展消息的类型
+enum MessageType {
+	BEGINNING_ID = 1000;
+
+	SAY_HELLO_REQUEST = 1000;
+	SAY_HELLO_RESPONSE = 1001;
+	// more ...
+
+	ENDING_ID = 2000;
+};
+
+// 扩展消息体
+extend binggo.Body {
+	optional SayHelloRequest say_hello_request = 1000;
+	optional SayHelloResponse say_hello_response = 1001;
+
+	// more ...
+};
+
+message SayHelloRequest {
+	required uint32 person = 1;
+	required string bless_message = 2;
+	optional string gift = 3;
+};
+
+message SayHelloResponse {
+	required ResponseCode rc = 1;
+	optional string feedback = 2;
+};
+
+// 错误编码
+enum ErrorCode {
+	EC_SERVICE1_BEGIN = 1000;
+
+	EC_NOT_AT_HOME = 1001;
+	EC_WEATHER_NOT_GOOD = 1002;
+
+	EC_SERVICE1_END = 2000;
+};

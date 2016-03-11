@@ -1,0 +1,52 @@
+package binggo;
+
+message BMessage {
+	// 消息头
+	required Head head	= 1;
+	// 消息体
+	required Body body	= 2;
+};
+
+message Head {
+	// 版本号
+	required uint32 version= 1;
+	// 会话号，发起调用处指定，后续回包保持该值不变
+	required string session_no	= 2;
+	// 消息类型
+	required int32 message_type = 3;
+	// 消息发起方
+	required uint32 source = 4;
+	// 消息接收方
+	optional uint32 dest = 5;
+	// 调用目的
+	optional string call_purpose = 6;
+};
+
+// 消息体所有的字段都是可选的，需配合消息头中的message_type进行检查
+message Body {
+	optional HeartBeatRequest heart_beat_request = 1;
+	optional HeartBeatResponse heart_beat_response = 2;
+	extensions 1000 to max;
+};
+
+// 消息类型
+enum MessageType {
+	HEART_BEAT_REQUEST = 1;
+	HEART_BEAT_RESPONSE = 2;
+};
+
+// 通用的返回码
+message ResponseCode {
+	required int32 retcode = 1; // 返回值
+	optional string error_message = 2; // 当返回码不为0时，包含错误信息
+};
+
+// 心跳请求，有效载荷由通信双方协定
+message HeartBeatRequest {
+	repeated bytes payload = 1;
+};
+
+message HeartBeatResponse {
+	required ResponseCode rc = 1;
+	repeated bytes payload = 2;
+};

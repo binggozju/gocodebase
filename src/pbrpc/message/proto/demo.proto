@@ -1,0 +1,12 @@
+package demo;
+
+message CallRequest {
+	required uint32 person = 1;
+	required string action = 3;
+	optional string mark = 4;
+};
+
+message CallResponse {
+	required uint32 retcode = 1;
+	optional string result = 2;
+};
